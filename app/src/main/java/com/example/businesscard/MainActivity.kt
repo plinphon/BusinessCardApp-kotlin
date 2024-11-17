@@ -1,17 +1,14 @@
 package com.example.businesscard
 
 import android.os.Bundle
-import android.service.quicksettings.Tile
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -23,7 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,22 +30,20 @@ import com.example.businesscard.ui.theme.BusinessCardTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge() // Optional function, ensure you have it defined
         setContent {
             BusinessCardTheme {
-
                 Scaffold(
-
                     content = { paddingValues ->
-                        Show(modifier = Modifier.padding(paddingValues))
+                        BusinessCardScreen(modifier = Modifier.padding(paddingValues))
                     }
                 )
             }
         }
     }
 }
+
 @Composable
-fun ProfilePic(
+fun ProfilePicture(
     modifier: Modifier = Modifier
 ) {
     val image = painterResource(R.drawable.prof)
@@ -56,11 +52,10 @@ fun ProfilePic(
             .padding(16.dp)
             .size(150.dp)
             .clip(CircleShape)
-
     ) {
         Image(
             painter = image,
-            contentDescription = null,
+            contentDescription = stringResource(R.string.profile_picture_description),
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
@@ -68,9 +63,9 @@ fun ProfilePic(
 }
 
 @Composable
-fun Title(
+fun UserDetails(
     name: String,
-    title: String,
+    role: String,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -79,86 +74,106 @@ fun Title(
         modifier = modifier
             .padding(16.dp)
     ) {
-        ProfilePic()
+        ProfilePicture()
         Text(
             text = name,
             fontSize = 30.sp,
-
-
+            fontWeight = FontWeight.Bold
         )
         Text(
-            text = title,
+            text = role,
             fontSize = 18.sp,
+            fontWeight = FontWeight.Medium
         )
     }
 }
 
 @Composable
-fun Contact(
+fun ContactDetails(
     phone: String,
-    ig: String,
+    instagram: String,
     email: String,
     modifier: Modifier = Modifier
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
-            .padding(16.dp)
+        horizontalAlignment = Alignment.Start,
+        modifier = modifier.padding(16.dp)
     ) {
-        Text(
-            text = "Phone: $phone",
-            fontSize = 16.sp,
-
-        )
-        Text(
-            text = "Instagram: @$ig",
-            fontSize = 16.sp,
-
-        )
-        Text(
-            text = "Email: $email",
-            fontSize = 16.sp,
-        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Image(
+                painter = painterResource(R.drawable.ic_phone),
+                contentDescription = stringResource(R.string.phone_icon_description),
+                modifier = Modifier.size(24.dp).padding(end = 8.dp)
+            )
+            Text(
+                text = stringResource(R.string.phone_label, phone),
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Image(
+                painter = painterResource(R.drawable.ic_ig),
+                contentDescription = stringResource(R.string.instagram_icon_description),
+                modifier = Modifier.size(24.dp).padding(end = 8.dp)
+            )
+            Text(
+                text = stringResource(R.string.instagram_label, instagram),
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Image(
+                painter = painterResource(R.drawable.ic_email),
+                contentDescription = stringResource(R.string.email_icon_description),
+                modifier = Modifier.size(24.dp).padding(end = 8.dp)
+            )
+            Text(
+                text = stringResource(R.string.email_label, email),
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
     }
 }
 
 @Composable
-fun Show(modifier: Modifier = Modifier) {
+fun BusinessCardScreen(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .fillMaxSize()
     ) {
-        // Background image
+
         Image(
-            painter = painterResource(id = R.drawable.androidparty),
+            painter = painterResource(id = R.drawable.background),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
 
         Column(
-            verticalArrangement = Arrangement.SpaceAround,
+            verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(10.dp)
         ) {
-            Title(name = "Greater", title = "Student")
-            Contact(
+            UserDetails(name = "Greater", role = "Student")
+            ContactDetails(
                 phone = "0939425399",
-                ig = "plinphon",
+                instagram = "plinphon",
                 email = "greatez12345@gmail.com"
             )
         }
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun BusinessCardPreview() {
     BusinessCardTheme {
-        Show()
+        BusinessCardScreen()
     }
 }

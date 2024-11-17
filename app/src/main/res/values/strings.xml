@@ -1,3 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">business card</string>
+
+    <string name="app_name">Business Card</string>
+    <string name="profile_picture_description">Profile picture</string>
+
+
+    <!-- Information Labels -->
+    <string name="phone_icon_description">Phone icon</string>
+    <string name="instagram_icon_description">Instagram icon</string>
+    <string name="email_icon_description">Email icon</string>
+    <string name="phone_label">%1$s</string>
+    <string name="instagram_label">%1$s</string>
+    <string name="email_label">%1$s</string>
 </resources>
